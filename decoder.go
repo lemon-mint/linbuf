@@ -240,6 +240,18 @@ func (b *Decoder) String(p *string) *Decoder {
 	*p = string(b2)
 	return b
 }
+func (b *Decoder) Boolean(p *bool) *Decoder {
+	if b.e != nil {
+		return b
+	}
+	a, err := b.b.ReadByte()
+	if err != nil {
+		b.e = err
+		return b
+	}
+	*p = a != 0
+	return b
+}
 
 func (b *Decoder) Finalize() error {
 	err := b.e
